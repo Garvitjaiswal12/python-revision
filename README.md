@@ -128,3 +128,9 @@
 58) File handling Project
 59) A normal game
 60) OOPS Project
+
+amstrong no.
+palindrome no. 
+fibonacci 
+fibonacci using recursion
+calculator 
