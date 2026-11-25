@@ -1,0 +1,442 @@
+Day 01
+
+   2206. Divide Array Into Equal Pairs
+
+   public boolean divideArray(int[] nums) {
+        int n = nums.length;
+        //int count=0;
+        Arrays.sort(nums);
+        for(int i=0; i<n; i+=2){
+          
+                if(nums[i] != nums[i+1]) 
+                return false;
+            
+        }
+        return true;
+        
+    }
+   2341. Maximum Number of Pairs in Array
+
+       public int[] numberOfPairs(int[] nums) {
+        Arrays.sort(nums);
+        Stack<Integer> res = new Stack<>();
+        int count=0;
+        res.push(nums[0]);
+        for(int i=1; i<nums.length; i++){
+         if (!res.isEmpty() && nums[i] == res.peek()) { 
+        res.pop();
+        count+=1;
+        }
+        else{
+            res.push(nums[i]);
+        }
+        }
+        int[] answer = new int[2];
+        answer[0] = count;
+        answer[1] = res.size();
+        return answer;
+
+                OR
+
+    public int[] numberOfPairs(int[] nums) {
+        
+        if(nums.length == 1)
+        return new int[]{0,1};
+        
+        HashSet<Integer> set = new HashSet<>();
+        
+        int pairs=0;
+        for(int i : nums){
+            if(!set.contains(i)){
+               set.add(i);            // No pair present 
+            }else{
+              set.remove(i);          // Pair found 
+              pairs++;                                              
+            }
+        }
+        
+        return new int[]{pairs,set.size()};             
+    }
+    }
+
+   2357. Make Array Zero by Subtracting Equal Amounts
+
+  public int minimumOperations(int[] nums) {
+        HashSet<Integer> res = new HashSet<>();
+    for(int i=0; i<nums.length; i++){
+    if(nums[i]!=0)  res.add(nums[i]);
+    }
+   return res.size();
+    }
+
+
+
+
+   2293. Min Max Game - Array
+
+public int minMaxGame(int[] nums) {
+        int n = nums.length;
+      while(n>1){
+          int[] newNums = new int[n/2];
+        for(int i=0; i<n/2; i++){
+            if(i%2==0) {
+             newNums[i] = Math.min(nums[2*i], nums[2*i+1]);
+            }
+            else {
+             newNums[i] = Math.max(nums[2*i], nums[2*i+1]);
+            }
+        }
+       nums = newNums;
+        n = nums.length; 
+      }
+      return nums[0];
+    }
+
+               OR
+
+
+public int minMaxGame(int[] a) {
+    for(int n= a.length; n>1 ; n-=(n/2)){
+        for(int i=0;i<n/2;i++) 
+		    a[i]= (i%2)==1? Math.max(a[2 * i], a[2 * i + 1]) : Math.min(a[2 * i], a[2 * i + 1]);   
+    }
+    return a[0];
+}
+
+
+Day 02
+
+   2210. Count Hills and Valleys in an Array
+
+ public int countHillValley(int[] nums) {
+     List<Integer> list = new ArrayList<>();
+     list.add(nums[0]);
+     for(int i=1; i<nums.length; i++){
+        if(nums[i] != nums[i-1]){
+            list.add(nums[i]);
+        }
+     }
+     int count = 0;
+     for(int i=1; i<list.size()-1; i++){
+        if((list.get(i+1)<list.get(i) && list.get(i-1)<list.get(i)) || 
+        (list.get(i+1)>list.get(i) && list.get(i-1)>list.get(i)))  count++;
+     }
+     return count;
+
+                  OR
+
+ public int countHillValley(int[] nums) {
+     int prev = nums[0];
+     int count=0;
+     for(int i=1; i<nums.length-1; i++){
+        if((prev == nums[i]) || (nums[i] == nums[i+1])) continue;
+        if((prev<nums[i] && nums[i+1]<nums[i]) || (prev>nums[i] && nums[i+1]>nums[i]))
+        count++;
+        prev = nums[i];
+     }
+     return count;
+
+
+   2154. Keep Multiplying Found Values by Two
+
+ public int findFinalValue(int[] nums, int original) {
+        boolean isFound = true;
+        while(isFound) {
+            isFound = false;
+            for(int i=0; i<nums.length; i++){
+        
+        if(nums[i] == original){
+             original = original*2;  
+            isFound = true;
+            break;
+        } 
+      }
+     }
+  return original;
+}
+                       OR
+
+   public int findFinalValue(int[] nums, int original) {
+     HashSet<Integer> set = new HashSet<>();
+     for(int num : nums){
+        set.add(num);
+     }
+     int val= original;
+     while(set.contains(val)){
+        val *= 2;
+     }
+     return val;
+    }
+
+
+   2176. Count Equal and Divisible Pairs in an Array  
+
+ public int countPairs(int[] nums, int k) {
+        int n = nums.length;
+        int pairs=0;
+        for(int i=0; i<n; i++){
+            for(int j=i+1; j<n; j++){
+                if((nums[i] == nums[j]) && ((i*j)%k ==0)){
+                    pairs++;
+                }
+            }
+        }
+        return pairs;
+    }
+
+
+   2169. Count Operations to Obtain Zero
+
+ public int countOperations(int num1, int num2) {
+        int count=0;
+        while(Math.min(num1,num2)!=0){
+        if(num1 >= num2){
+           num1 = num1 - num2;     
+           }
+        else{
+            num2 = num2 - num1;
+        }
+       count++;
+        }
+        return count;
+}
+
+
+Day 03
+
+   2164. Sort Even and Odd Indices Independently
+
+ public int[] sortEvenOdd(int[] nums) {
+        for(int i=0; i<nums.length; i+=2){
+            for (int j = i + 2; j < nums.length; j += 2) {
+                if (nums[i] > nums[j]) {   
+                    int temp = nums[i];
+                    nums[i] = nums[j];
+                    nums[j] = temp;
+                }
+        }
+        }
+        for(int i=1; i<nums.length; i+=2){
+            for (int j = i + 2; j < nums.length; j += 2) {
+                if (nums[i] < nums[j]) {   // changed comparison
+                    int temp = nums[i];
+                    nums[i] = nums[j];
+                    nums[j] = temp;
+                }
+        }
+        }
+        return nums;
+    }
+                     OR
+
+public int[] sortEvenOdd(int[] nums) {
+        ArrayList<Integer> even = new ArrayList<>();
+        ArrayList<Integer> odd = new ArrayList<>();
+        for(int i=0; i<nums.length; i+=2){
+            even.add(nums[i]);
+        }
+        Collections.sort(even);
+
+         for(int i=1; i<nums.length; i+=2){
+            odd.add(nums[i]);
+        }
+        Collections.sort(odd, Collections.reverseOrder());
+        
+        int[] arr = new int[nums.length];
+        int o=0; int e=0;
+        for(int i=0; i<nums.length; i++){
+            if(i%2==0){
+                arr[i] = even.get(e++);
+            }
+            else{
+                arr[i] = odd.get(o++);
+            }
+        }
+        return arr;
+    }
+   2160. Minimum Sum of Four Digit Number After Splitting Digits
+
+ public int minimumSum(int num) {
+        char[] ch = String.valueOf(num).toCharArray();
+        Arrays.sort(ch);
+          int new1 = ((ch[0]-'0')*10 + (ch[2]-'0'));
+           int new2 = ((ch[1]-'0')*10 + (ch[3]-'0'));
+           int sum = new1+new2;
+        return sum;
+    }
+                        OR
+
+public int minimumSum(int num) {
+        int[] arr = new int[4];
+        for (int i = 0; i < 4; i++) {
+            arr[i] = num % 10;
+            num /= 10;
+        }
+        Arrays.sort(arr);
+        return (arr[0] * 10 + arr[2]) + (arr[1] * 10 + arr[3]);
+    }
+
+
+   2078. Two Furthest Houses With Different Colors
+T.C : O(n^2)
+
+ public int maxDistance(int[] colors) {
+        int i=0;
+        int dist = 0;
+        while(i < colors.length){
+            int j=i+1;
+ while( j < colors.length){
+        if(colors[i] != colors[j]) {
+dist = Math.max(dist, Math.abs(i - j));
+        }
+        j++;
+     }   
+     i++;
+        }
+    return dist;
+    }
+
+OR
+(OPTIMAL SOLUTION WITH O(n)) : 
+
+ public int maxDistance(int[] colors) {
+      int left = 0;
+      int right = colors.length - 1;
+      int dist = 0;
+      while(left < colors.length){
+        if(colors[left] != colors[right]){
+           dist = Math.abs(right - left);
+           break;
+        }
+        else{
+          left++;
+        }
+      }  
+      left = 0;
+      right = colors.length - 1;
+      while(right > 0){
+        if(colors[left] != colors[right]){
+           dist = Math.max(dist, Math.abs(right - left));
+           break;
+        }
+        else{
+          right--;
+        }
+      }  
+      return dist;
+    }
+
+   2057. Smallest Index With Equal Value
+    
+   public int smallestEqual(int[] nums) {
+        for(int i=0; i<nums.length; i++){
+            if(i % 10 == nums[i]){
+              return i;
+            }
+        }
+        return -1;
+    }  
+
+
+
+Day 04
+
+   1732. Find the Highest Altitude
+
+     public int largestAltitude(int[] gain) {
+        int max =0;
+        int curr = 0;
+        int n = gain.length;
+        for(int i=0; i<n; i++){
+        curr += gain[i];
+        max = Math.max(max, curr);
+        }
+        return max;
+    }
+
+   2037. Minimum Number of Seat Everyone
+
+    public int minMovesToSeat(int[] seats, int[] students) {
+        Arrays.sort(students);
+        Arrays.sort(seats);
+        int sum=0;
+        for(int i=0; i<students.length; i++){
+                sum += Math.abs(seats[i]-students[i]);
+        }
+    return sum;
+    }
+
+   1979. Find Greatest Common Divisor of Array
+ Arrays.sort(nums);
+        int n = nums.length;
+        int a = nums[0];
+        int b = nums[n-1];
+       for(int i=a; i>0; i--){
+        if(a%i == 0 && b%i ==0){
+          return i;
+        }
+       }
+       return 1;
+
+
+   2315. Count Asterisks
+
+     public int countAsterisks(String s) {
+        int res =0;
+        int bars=0;
+       for(int i=0; i<s.length(); ++i){
+      if(s.charAt(i) == '*' && bars % 2==0)
+        res++;
+      if(s.charAt(i) == '|')
+        bars++;
+       }
+       return res;
+    }
+
+Day 05
+
+   2399. Check distances Between same letters
+   2309. Greatest English Letter in Upper and Lower Case
+   2299. Strong Password Checker II
+   2287. Rearrange Characters to Make Target String
+   
+Day 06
+   
+   2283. Check if Number Has Equal Digit Count and Digit Value
+   2278. Percentage of Letter in String
+   2273. Find Resultant Array After Removing Anagrams
+   2264. Largest 3-Same-Digit Number in String+
+
+Day 07
+   
+   2259. Remove Digit From Number to Maximize Result
+   2243. Calculate Digit Sum of a String
+   2124. Check if All A's Appears Before All B's
+   2068. Check Whether Two Strings are Almost Equivalent
+
+Day 08
+    
+   2042. Check if Numbers Are Ascending in a Sentence
+   2000. Reverse Prefix of Word
+   2404. Most Frequent Even Element
+   2325. Decode the Message 
+
+Day 09
+
+   2062.Count Vowel Substrings of a String
+   2053.Kth Distinct String in an Array
+   290. Word Pattern
+   389. Find the Difference
+
+Day 10
+   
+   575. Distribute Candies
+   645. Set Mismatch
+   804. Unique Morse Code Words
+   819. Most Common Word
+   
+
+   
+   
+   
+   
